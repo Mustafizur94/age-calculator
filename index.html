@@ -85,11 +85,11 @@
       color: #333;
     }
 
-    footer {
-      background-color: #f2f2f2;
-      padding: 20px;
+    .footer {
       text-align: center;
+      padding: 20px;
       font-size: 14px;
+      color: #555;
     }
 
     @media screen and (max-width: 600px) {
@@ -102,88 +102,80 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1>Age Calculator</h1>
-    <p class="description">Easily find out your exact age in years, months, and days by entering your birthdate and the date to calculate.</p>
+<div class="container">
+  <h1>Age Calculator</h1>
+  <p class="description">Find your exact age in years, months, and days.</p>
 
-    <label for="dob">Date of Birth:</label>
-    <input type="date" id="dob" />
+  <label for="dob">Date of Birth:</label>
+  <input type="date" id="dob" />
 
-    <label for="current">Calculate Age As On:</label>
-    <input type="date" id="current" />
+  <label for="current">Calculate Age As On:</label>
+  <input type="date" id="current" />
 
-    <button onclick="calculateAge()">Calculate Age</button>
+  <button onclick="calculateAge()">Calculate Age</button>
 
-    <div class="result" id="result"></div>
+  <div class="result" id="result"></div>
 
-    <div class="note">
-      <h3>How Age is Calculated</h3>
-      <p>Your age is calculated based on your birth date and the selected date. It counts full years, months, and extra days. Note that some cultures use different age systems — this tool uses the commonly accepted Western method.</p>
-    </div>
+  <div class="note">
+    <h3>How Age is Calculated</h3>
+    <p>We calculate age based on full years, months, and days from your birthdate to the selected date.</p>
   </div>
+</div>
 
-  <footer>
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="terms.html">Terms</a> |
-    <a href="disclaimer.html">Disclaimer</a> |
-    <a href="about.html">About</a> |
-    <a href="contact.html">Contact</a>
-    <br>
-    <p style="margin-top: 10px;">&copy; 2025 Age Calculator by Mustafizur Rahaman Mondal</p>
-  </footer>
+<script>
+function calculateAge() {
+  const dob = new Date(document.getElementById('dob').value);
+  const current = new Date(document.getElementById('current').value);
+  const resultBox = document.getElementById('result');
 
-  <script>
-    function calculateAge() {
-      const dobInput = document.getElementById('dob').value;
-      const currentInput = document.getElementById('current').value;
-      const resultBox = document.getElementById('result');
+  if (!document.getElementById('dob').value || !document.getElementById('current').value) {
+    resultBox.innerText = "Please enter both dates.";
+    return;
+  }
 
-      if (!dobInput || !currentInput) {
-        resultBox.innerText = "Please enter both dates to calculate age.";
-        return;
+  let years = current.getFullYear() - dob.getFullYear();
+  let months = current.getMonth() - dob.getMonth();
+  let days = current.getDate() - dob.getDate();
+
+  if (days < 0) {
+    months--;
+    const previousMonth = new Date(current.getFullYear(), current.getMonth(), 0);
+    days += previousMonth.getDate();
+  }
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  resultBox.innerText = `You are ${years} year(s), ${months} month(s), and ${days} day(s) old.`;
+}
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("service-worker.js").then(
+      function (registration) {
+        console.log("ServiceWorker registration successful with scope: ", registration.scope);
+      },
+      function (err) {
+        console.log("ServiceWorker registration failed: ", err);
       }
+    );
+  });
+}
+</script>
 
-      const dob = new Date(dobInput);
-      const current = new Date(currentInput);
-
-      if (dob > current) {
-        resultBox.innerText = "Date of Birth cannot be after the current date.";
-        return;
-      }
-
-      let years = current.getFullYear() - dob.getFullYear();
-      let months = current.getMonth() - dob.getMonth();
-      let days = current.getDate() - dob.getDate();
-
-      if (days < 0) {
-        months--;
-        const daysInPrevMonth = new Date(current.getFullYear(), current.getMonth(), 0).getDate();
-        days += daysInPrevMonth;
-      }
-
-      if (months < 0) {
-        years--;
-        months += 12;
-      }
-
-      resultBox.innerText = `You are ${years} year(s), ${months} month(s), and ${days} day(s) old.`;
-    }
-  </script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("service-worker.js").then(
-          function (registration) {
-            console.log("ServiceWorker registration successful with scope: ", registration.scope);
-          },
-          function (err) {
-            console.log("ServiceWorker registration failed: ", err);
-          }
-        );
-      });
-    }
-  </script>
+<footer style="background-color:#f2f2f2; padding: 20px; text-align: center; font-size: 14px;">
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="terms.html">Terms</a> |
+  <a href="disclaimer.html">Disclaimer</a> |
+  <a href="about.html">About</a> |
+  <a href="contact.html">Contact</a>
+  <br>
+  <p style="margin-top: 10px;">&copy; 2025 Age Calculator by Mustafizur Rahaman Mondal</p>
+</footer>
 
 </body>
 </html>
