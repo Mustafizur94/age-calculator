@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0077b6;
+    }
+
+    p.description {
+      text-align: center;
+      color: #333;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+      color: #222;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #023e8a;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #d1e7dd;
+      border: 1px solid #badbcc;
+      color: #0f5132;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .note, .privacy {
+      margin-top: 30px;
+      background-color: #f1f8ff;
+      border-left: 5px solid #0077b6;
+      padding: 15px;
+      border-radius: 6px;
+      color: #333;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Age Calculator</h1>
+    <p class="description">Easily find out your exact age in years, months, and days by entering your birthdate and the date to calculate.</p>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" />
+
+    <label for="current">Calculate Age As On:</label>
+    <input type="date" id="current" />
+
+    <button onclick="calculateAge()">Calculate Age</button>
+
+    <div class="result" id="result"></div>
+
+    <div class="note">
+      <h3>How Age is Calculated</h3>
+      <p>Your age is calculated based on your birth date and the selected date. It counts full years, months, and extra days. Note that some cultures use different age systems — this tool uses the commonly accepted Western method.</p>
+    </div>
+
+    <div class="privacy">
+      <h3>Privacy Policy</h3>
+      <p>This age calculator does not store or collect any personal data. All calculations are done directly in your browser, and no information is sent to any server. Your privacy is completely protected while using this tool.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 AgeCalculatorTool.com | All rights reserved
+  </div>
+
+  <script>
+    function calculateAge() {
+      const dob = new Date(document.getElementById('dob').value);
+      const current = new Date(document.getElementById('current').value);
+      const resultBox = document.getElementById('result');
+
+      if (dob == "Invalid Date" || current == "Invalid Date") {
+        resultBox.innerText = "Please enter both dates to calculate age.";
+        return;
+      }
+
+      let years = current.getFullYear() - dob.getFullYear();
+      let months = current.getMonth() - dob.getMonth();
+      let days = current.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+        days += new Date(current.getFullYear(), current.getMonth(), 0).getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      resultBox.innerText = `You are ${years} year(s), ${months} month(s), and ${days} day(s) old.`;
+    }
+  </script>
+
+</body>
+</html>
